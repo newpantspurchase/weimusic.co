@@ -190,7 +190,17 @@ html {
      they need a heavier tint to stay a subtle backdrop instead of
      competing with the text sitting on top of them */
   opacity: 0.88;
-  transition: background-color var(--theme-transition);
+
+  /* Softens the hard line where the hero meets the section below.
+     An inset shadow rather than a gradient background, deliberately -
+     gradients can't be smoothly transitioned between the light/dark
+     colors the way a solid box-shadow color can, and this needs to
+     fade in step with everything else during a theme switch. Sits on
+     this shared tint layer (above both hero images) so it works for
+     whichever one is showing, without touching either image itself. */
+  box-shadow: inset 0 -50px 40px -35px var(--bg);
+
+  transition: background-color var(--theme-transition), box-shadow var(--theme-transition);
   will-change: background-color; /* same reasoning as .hero::after above */
 }
 
@@ -540,10 +550,19 @@ html {
   text-decoration: none;
   font-size: 0.9rem;
   white-space: nowrap; /* stops a link's text from wrapping mid-word and colliding with the next link */
+  /* deliberately NOT var(--theme-transition) - that's tuned for the
+     slow, page-wide fade when the theme flips, which reads as
+     sluggish for something as immediate as a hover response */
+  transition: color 0.15s ease;
 }
 
-.nav a:hover {
-  color: var(--accent);
+.nav a:hover,
+.nav a:focus-visible {
+  /* var(--text) rather than a literal white - it's near-white in
+     dark mode (the effect that was asked for) but flips to near-
+     black in light mode instead of disappearing against a light
+     background */
+  color: var(--text);
 }
 
 /* Everything right of the brand - the link list, the theme switch,
