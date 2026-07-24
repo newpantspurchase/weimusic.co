@@ -17,6 +17,22 @@
   <title>WEI - Music Production</title>
   <!-- The text shown in the browser tab and in search results -->
 
+  <!-- THEME: flips a coin for light vs. dark on every page load and
+       sets it on <html> as a data-theme attribute before anything
+       paints. This has to be an inline script that runs immediately -
+       if it lived in the deferred script.js like the nav logic does,
+       the page would render in one theme for a split second first
+       and then flash to the randomly-chosen one. styles.css keys off
+       data-theme to swap the whole color palette (and the hero
+       image); script.js (deferred, later) lets the visitor override
+       the coin flip for the rest of their visit via the switch in
+       the nav. -->
+  <script>
+    (function () {
+      document.documentElement.setAttribute('data-theme', Math.random() < 0.5 ? 'light' : 'dark');
+    })();
+  </script>
+
   <!-- Loading Google Fonts: three roles - a bold "display" font for the big
        brand name, a plain "body" font for readable paragraph text, and a
        "mono" font kept in reserve for small labels -->
@@ -40,12 +56,45 @@
        templating system just for this. -->
   <nav class="nav">
     <a class="brand" href="index.html">WEI</a>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#credibility">Track Record</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
-    </ul>
+
+    <!-- Everything on the right side of the nav (links, theme switch,
+         hamburger) is grouped in one wrapper so .nav's space-between
+         still just has two things to split: the brand, and this. -->
+    <div class="nav-right">
+
+      <ul id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#credibility">Track Record</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
+      </ul>
+
+      <!-- Light/dark switch - a simple sliding-knob toggle. The knob's
+           position and colors come entirely from CSS reacting to the
+           data-theme attribute on <html>; script.js just flips that
+           attribute for the rest of this page view (each fresh load
+           picks a random theme again - see the <head> script). -->
+      <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Toggle light and dark mode">
+        <span class="track">
+          <span class="knob"></span>
+        </span>
+      </button>
+
+      <!-- Hamburger button - only visible on narrow screens (see the
+           640px media query in styles.css). The three bars fade out
+           and 偉 fades in when .open is toggled on - the traditional
+           character for "wei" as in 偉大 (wěidà), "great", a little
+           nod to WEI's name instead of a plain X. aria-expanded is
+           flipped by script.js so screen readers know whether the
+           menu is currently open or closed. -->
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="char" aria-hidden="true">偉</span>
+      </button>
+
+    </div>
   </nav>
 
   <!-- ============ HERO ============
@@ -158,15 +207,25 @@
       </iframe>
     </div>
 
-    <!-- TESTIMONIALS -->
+    <!-- TESTIMONIALS - temporarily hidden (commented out, not
+         deleted) so it's a one-line uncomment to bring back later. -->
+    <!--
     <div class="testimonials">
       <blockquote class="testimonial">
         <p>"WEI is a very important role model for me, thank you for all the support you have given my music."</p>
         <cite>- Vayav G.</cite>
       </blockquote>
     </div>
+    -->
 
   </section>
+
+  <!-- script.js is shared with pricing.html, same reasoning as the
+       shared styles.css: one file, linked from both pages, so the
+       hamburger-menu logic only has to be written once. defer makes
+       it run after the HTML is parsed, so navToggle/navLinks exist
+       by the time the script looks for them. -->
+  <script src="script.js" defer></script>
 
 </body>
 </html>

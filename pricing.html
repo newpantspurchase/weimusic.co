@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pricing - WEI Music Production</title>
 
+  <!-- same random-theme-on-load script as index.html - see the
+       comment there for why it has to be inline and synchronous -->
+  <script>
+    (function () {
+      document.documentElement.setAttribute('data-theme', Math.random() < 0.5 ? 'light' : 'dark');
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=Space+Mono&display=swap" rel="stylesheet">
 
@@ -22,12 +30,32 @@
        label rather than a functional dead link. -->
   <nav class="nav">
     <a class="brand" href="index.html">WEI</a>
-    <ul>
-      <li><a href="index.html#about">About</a></li>
-      <li><a href="index.html#credibility">Track Record</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
-    </ul>
+
+    <!-- same nav-right group (links, theme switch, hamburger) as
+         index.html - see the comments there for how it all works -->
+    <div class="nav-right">
+
+      <ul id="navLinks">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#credibility">Track Record</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
+      </ul>
+
+      <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Toggle light and dark mode">
+        <span class="track">
+          <span class="knob"></span>
+        </span>
+      </button>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="char" aria-hidden="true">偉</span>
+      </button>
+
+    </div>
   </nav>
 
   <!-- ============ PRICING ============
@@ -40,7 +68,7 @@
 
     <p class="intro">
       Straightforward pricing, no surprises. Try a lesson for free,
-      then decide what pace works for you.
+      decide what pace works for you.
     </p>
 
     <div class="pricing-grid">
@@ -59,6 +87,9 @@
     <a class="cta" href="mailto:w@weimusic.co">Book a lesson</a>
 
   </main>
+
+  <!-- shared with index.html - see the comment there -->
+  <script src="script.js" defer></script>
 
 </body>
 </html>
