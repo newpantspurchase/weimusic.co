@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing - WEI Music Production</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=Space+Mono&display=swap" rel="stylesheet">
+
+  <!-- same shared stylesheet as index.html - this is the whole
+       point of pulling the CSS out into its own file earlier -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Same nav as index.html. "About" and "Track Record" point back
+       to sections on the homepage (index.html#about), since those
+       sections don't exist on this page. "Pricing" has no href
+       needed as a link back to itself, so it's left as a visual
+       label rather than a functional dead link. -->
+  <nav class="nav">
+    <a class="brand" href="index.html">WEI</a>
+    <ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#credibility">Track Record</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ PRICING ============
+       <main> is correct here, since pricing IS the primary content
+       of this particular page (unlike on index.html, where it was
+       one section among several) -->
+  <main class="pricing-page">
+
+    <h1>Lessons &amp; pricing</h1>
+
+    <p class="intro">
+      Straightforward pricing, no surprises. Try a lesson for free,
+      then decide what pace works for you.
+    </p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Single Lesson</div>
+        <div class="plan-price">$75<span>/hr</span></div>
+        <p class="plan-note">First lesson is free - no cost to see if it's the right fit.</p>
+      </div>
+      <div class="price-card">
+        <div class="plan-name">3-Lesson Pack</div>
+        <div class="plan-price">$60<span>/lesson avg</span></div>
+        <p class="plan-note">$180 total for three lessons - the best rate for students committing to steady progress.</p>
+      </div>
+    </div>
+
+    <a class="cta" href="mailto:w@weimusic.co">Book a lesson</a>
+
+  </main>
+
+</body>
+</html>
