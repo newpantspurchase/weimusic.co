@@ -380,6 +380,68 @@
     .hero {
       min-height: calc(90vh - 64px);
     }
+
+    /* ===========================================================
+       PRICING SECTION
+    ============================================================ */
+    .pricing {
+      background: var(--bg-soft);
+      padding: 8vw;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .pricing h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .price-card {
+      background: var(--bg);
+      border: 1px solid rgba(237, 232, 221, 0.1);
+      border-radius: 8px;
+      padding: 1.75rem;
+    }
+
+    .price-card .plan-name {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+
+    .price-card .plan-price {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      color: var(--accent);
+      margin-top: 0.5rem;
+    }
+
+    .price-card .plan-price span {
+      /* the "/hr" or "/lesson" suffix - smaller and muted, so the
+         number itself stays the visual focus */
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .price-card .plan-note {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 
@@ -392,6 +454,7 @@
     <a class="brand" href="#">WEI</a>
     <ul>
       <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
       <li><a href="#credibility">Track Record</a></li>
       <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
     </ul>
@@ -444,6 +507,26 @@
          addressed to w@weimusic.co -->
 
   </main>
+
+  <!-- ============ PRICING ============ -->
+  <section class="pricing" id="pricing">
+
+    <h2>Lessons &amp; pricing</h2>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Single Lesson</div>
+        <div class="plan-price">$75<span>/hr</span></div>
+        <p class="plan-note">First lesson is free — no cost to see if it's the right fit.</p>
+      </div>
+      <div class="price-card">
+        <div class="plan-name">3-Lesson Pack</div>
+        <div class="plan-price">$60<span>/lesson avg</span></div>
+        <p class="plan-note">$180 total for three lessons — the best rate for students committing to steady progress.</p>
+      </div>
+    </div>
+
+  </section>
 
   <!-- ============ CREDIBILITY ============
        <section> is the right tag here - it's a standalone chunk of
