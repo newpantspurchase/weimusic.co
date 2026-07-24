@@ -17,19 +17,17 @@
   <title>WEI - Music Production</title>
   <!-- The text shown in the browser tab and in search results -->
 
-  <!-- THEME: flips a coin for light vs. dark on every page load and
-       sets it on <html> as a data-theme attribute before anything
-       paints. This has to be an inline script that runs immediately -
-       if it lived in the deferred script.js like the nav logic does,
-       the page would render in one theme for a split second first
-       and then flash to the randomly-chosen one. styles.css keys off
-       data-theme to swap the whole color palette (and the hero
-       image); script.js (deferred, later) lets the visitor override
-       the coin flip for the rest of their visit via the switch in
-       the nav. -->
+  <!-- THEME: dark is the site's default. If the visitor has switched
+       to light before, that choice was saved in localStorage (see
+       script.js) and takes priority; otherwise it falls back to dark.
+       Sets data-theme on <html> before anything paints - this has to
+       be an inline script that runs immediately, not deferred code
+       in script.js, or the page would render in the wrong theme for
+       a split second first and then flash to the right one. -->
   <script>
     (function () {
-      document.documentElement.setAttribute('data-theme', Math.random() < 0.5 ? 'light' : 'dark');
+      var saved = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', saved || 'dark');
     })();
   </script>
 
@@ -55,7 +53,16 @@
        it's only two pages, that's simpler than building a
        templating system just for this. -->
   <nav class="nav">
-    <a class="brand" href="index.html">WEI</a>
+    <a class="brand" href="index.html">
+      <!-- Mini copy of the hero's waveform - starts invisible
+           (see .waveform--nav in styles.css) and fades in once
+           script.js's IntersectionObserver reports the real one,
+           down in the hero, has scrolled out of view. -->
+      <div class="waveform waveform--nav" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      WEI
+    </a>
 
     <!-- Everything on the right side of the nav (links, theme switch,
          hamburger) is grouped in one wrapper so .nav's space-between
@@ -69,15 +76,26 @@
         <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
       </ul>
 
-      <!-- Light/dark switch - a simple sliding-knob toggle. The knob's
-           position and colors come entirely from CSS reacting to the
-           data-theme attribute on <html>; script.js just flips that
-           attribute for the rest of this page view (each fresh load
-           picks a random theme again - see the <head> script). -->
+      <!-- Light/dark switch - a sun and a moon icon stacked on top of
+           each other, crossfading based on the data-theme attribute
+           on <html> (same fade technique as the hamburger's 偉
+           reveal). Whichever one is showing represents the theme
+           that's currently active. -->
       <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Toggle light and dark mode">
-        <span class="track">
-          <span class="knob"></span>
-        </span>
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="12" y1="2" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line>
+          <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line>
+          <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
       </button>
 
       <!-- Hamburger button - only visible on narrow screens (see the
@@ -100,7 +118,15 @@
   <!-- ============ HERO ============
        <header> is the semantically correct tag for intro/branding
        content - screen readers and search engines understand this
-       is the "top of page" section, not just a generic <div> -->
+       is the "top of page" section, not just a generic <div>.
+
+       It's wrapped in a plain .hero-wrap div for one reason: as you
+       scroll, script.js grows .hero slightly larger (a background
+       zoom effect - see styles.css and script.js for how). Scaling
+       an element up makes it visually spill past its own edges, and
+       .hero-wrap's only job is overflow: hidden, clipping that
+       spill so the zoom doesn't bleed into the section below. -->
+  <div class="hero-wrap">
   <header class="hero">
 
     <p class="eyebrow">Music Production Lessons</p>
@@ -123,6 +149,7 @@
     </div>
 
   </header>
+  </div>
 
   <!-- ============ ABOUT + CTA ============
        <main> wraps the primary content of the page - the "meat" of
