@@ -186,10 +186,11 @@ html {
   inset: 0;
   z-index: 1; /* above both images (.hero's own bg + ::after), below the text */
   background: var(--bg);
-  /* dialed up from 0.82 - both hero images are striking enough that
-     they need a heavier tint to stay a subtle backdrop instead of
-     competing with the text sitting on top of them */
-  opacity: 0.88;
+  /* lowered from 0.88 - less tint, more of the actual photo/artwork
+     showing through. Worth keeping an eye on text legibility if this
+     goes much lower, since the hero text sits directly on top of
+     whatever tint + image combination this produces */
+  opacity: 0.6;
 
   /* Softens the hard line where the hero meets the section below.
      An inset shadow rather than a gradient background, deliberately -
