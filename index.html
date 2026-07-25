@@ -17,6 +17,17 @@
   <title>WEI - Music Production</title>
   <!-- The text shown in the browser tab and in search results -->
 
+  <!-- FAVICON: a placeholder text-mark (just "WEI") until a proper
+       logo is ready to swap in. Three files, not one - the SVG is
+       what modern browsers actually use for the tab icon (crisp at
+       any size); the .ico is a fallback for anything that doesn't
+       support SVG favicons; apple-touch-icon.png is what iOS uses
+       specifically for "Add to Home Screen," which requires a PNG
+       and won't accept the SVG or ICO. -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
   <!-- THEME: dark is the site's default. If the visitor has switched
        to light before, that choice was saved in localStorage (see
        script.js) and takes priority; otherwise it falls back to dark.
@@ -258,10 +269,35 @@
        for a visitor who's scrolled all the way down without ever
        clicking the CTA higher up the page. -->
   <footer class="site-footer">
+    <!-- icons use stroke="currentColor" instead of a fixed color, so
+         each one automatically matches its link's text color - the
+         same muted-to-white/black hover shift as the rest of the
+         footer, no extra CSS needed per icon -->
     <div class="footer-links">
-      <a href="https://open.spotify.com/artist/2jOSQFHIeUc2OcPx8tSaTw" target="_blank" rel="noopener">Spotify</a>
-      <a href="mailto:w@weimusic.co">Email</a>
-      <a href="https://instagram.com/musicofwei" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://open.spotify.com/artist/2jOSQFHIeUc2OcPx8tSaTw" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M7 15.5c3-1.2 7-1.2 10 0.3"></path>
+          <path d="M6.5 12c3.5-1.4 8-1.4 11 0.3"></path>
+          <path d="M6 8.5c4-1.6 9-1.6 12.5 0.4"></path>
+        </svg>
+        Spotify
+      </a>
+      <a href="mailto:w@weimusic.co">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+          <path d="M22 6l-10 7L2 6"></path>
+        </svg>
+        Email
+      </a>
+      <a href="https://instagram.com/musicofwei" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        Instagram
+      </a>
     </div>
     <p class="footer-note">&copy; 2026 WEI. All rights reserved.</p>
   </footer>

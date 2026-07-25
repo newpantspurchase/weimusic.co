@@ -705,7 +705,12 @@ html {
   }
 
   .nav ul {
-    display: none; /* hidden until script.js toggles .open on */
+    /* display stays flex at all times now, instead of toggling
+       none/flex - display isn't an animatable property, so that old
+       approach could only snap open/closed with no transition at
+       all. Hidden state is opacity/transform/visibility instead,
+       which DO transition smoothly. */
+    display: flex;
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -715,11 +720,26 @@ html {
     padding: 1.25rem 6vw;
     background: rgba(var(--bg-rgb), 0.97);
     backdrop-filter: blur(8px);
-    transition: background-color var(--theme-transition);
+
+    opacity: 0;
+    transform: translateY(-8px); /* starts slightly above its resting position and drops in */
+    visibility: hidden; /* on top of opacity: 0, so it's not tabbable/selectable while hidden */
+    pointer-events: none; /* and not clickable while hidden, even though it's still technically in the layout */
+
+    /* visibility itself snaps rather than fades, so its transition is
+       delayed on the way in (switches to visible instantly) but
+       delayed on the way out (stays visible until the fade finishes,
+       then switches to hidden) - see .nav ul.open below for the
+       "way in" half of that */
+    transition: background-color var(--theme-transition), opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
   }
 
   .nav ul.open {
-    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition: background-color var(--theme-transition), opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0s;
   }
 
   .nav a {
@@ -750,6 +770,9 @@ html {
 }
 
 .footer-links a {
+  display: inline-flex; /* lays the icon and text out side by side */
+  align-items: center;
+  gap: 0.4rem;
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9rem;
@@ -757,6 +780,12 @@ html {
      hover: an immediate hover response reads better than syncing to
      the slow page-wide theme fade */
   transition: color 0.15s ease;
+}
+
+.footer-links .icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0; /* keeps the icon from getting squeezed if the link text wraps on a narrow screen */
 }
 
 .footer-links a:hover,
