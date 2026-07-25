@@ -545,10 +545,6 @@ html {
   animation: cover-marquee-scroll 90s linear infinite;
 }
 
-.cover-marquee:hover .cover-marquee-track {
-  animation-play-state: paused; /* lets a visitor actually look at one instead of it sliding away */
-}
-
 .cover-marquee-track img {
   height: 110px;
   width: 110px;
