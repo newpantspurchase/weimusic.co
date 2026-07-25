@@ -351,14 +351,24 @@ html {
    then fade/slide in - script.js staggers each child's own
    transition-delay so a section's pieces land one after another on
    a short beat instead of all appearing at once.
-============================================================ */
-[data-reveal-group] > .reveal {
+
+   Every rule here is scoped under html.reveal-enabled on purpose -
+   that class only gets added by script.js after the whole reveal
+   system (staggering + the observer, or the reduced-motion
+   fallback) has finished setting up successfully. Without it, these
+   rules never match at all, so if JS is disabled, blocked, or throws
+   partway through some future edit, this content (which is the
+   actual text of the page - headings, paragraphs, the CTA) simply
+   stays visible by normal HTML/CSS default instead of being stuck
+   at opacity: 0 with nothing left to un-hide it. Hiding is opt-in,
+   never the fallback. */
+html.reveal-enabled [data-reveal-group] > .reveal {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-[data-reveal-group].is-visible > .reveal {
+html.reveal-enabled [data-reveal-group].is-visible > .reveal {
   opacity: 1;
   transform: none;
 }
@@ -368,12 +378,12 @@ html {
    as you scroll past it, and counter-scales these same children back
    down to keep the text steady (see HERO SCROLL ZOOM there). Sliding
    them too would fight that, so the hero only fades in. */
-[data-reveal-group="fade"] > .reveal {
+html.reveal-enabled [data-reveal-group="fade"] > .reveal {
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal-group] > .reveal {
+  html.reveal-enabled [data-reveal-group] > .reveal {
     transition: none;
   }
 }
@@ -589,14 +599,23 @@ html {
   margin: 0.5rem 0;
   -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
           mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+/* .marquee-pending is added by script.js right before it starts
+   waiting on the images to load - only from that point on is it
+   actually hidden, and only once every image finishes (or fails -
+   see script.js) does .loaded flip it back to visible. If JS never
+   reaches that line at all (disabled, blocked, or an error anywhere
+   earlier in the file), .cover-marquee never gets .marquee-pending in
+   the first place, so it's just visible immediately by default -
+   same "hiding is opt-in" reasoning as the SCROLL REVEAL RHYTHM rules
+   further up. */
+.cover-marquee.marquee-pending {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-/* Set by script.js only once every cover image has actually finished
-   loading - keeps the empty placeholder-colored tiles (see
-   .cover-marquee-track img below) from ever being visible. */
-.cover-marquee.loaded {
+.cover-marquee.marquee-pending.loaded {
   opacity: 1;
 }
 

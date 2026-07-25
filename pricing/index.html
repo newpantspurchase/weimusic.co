@@ -125,7 +125,14 @@
     <!-- ============ FAQ ============
          <details>/<summary> is a native, built-in HTML accordion -
          click to expand, no JavaScript needed. -->
-    <section class="faq reveal" aria-label="Frequently asked questions" data-reveal-group>
+    <!-- data-defer-reveal opts this out of being faded in as one of
+         .pricing-page's staggered children (see script.js) - it has
+         its own separate data-reveal-group for its own children
+         below, and letting both apply at once meant this whole panel
+         (background color and all) could pop into view - empty,
+         since its children hadn't earned their own reveal yet -
+         before you'd actually scrolled anywhere near it. -->
+    <section class="faq" aria-label="Frequently asked questions" data-reveal-group data-defer-reveal>
       <h2 class="reveal">Frequently asked questions</h2>
 
       <div class="faq-list reveal">

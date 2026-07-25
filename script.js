@@ -210,47 +210,66 @@ if (heroWaveform && nav) {
    waiting on an IntersectionObserver.
 ============================================================ */
 
-const revealGroups = document.querySelectorAll('[data-reveal-group]');
+// Wrapped in try/catch on purpose: styles.css only hides anything
+// (see html.reveal-enabled there) once this block adds that class as
+// its very last step below. If anything in here throws - now, or from
+// some future edit - execution stops before reaching that line, so
+// the page's actual content (headings, paragraphs, the CTA) is never
+// left stuck invisible with no way to un-hide it. Same reasoning as
+// the marquee's own try/catch further down.
+try {
 
-revealGroups.forEach((group) => {
-  // capped at 4 steps so a section with lots of children (like the
-  // track record, with its stats grid and several paragraphs)
-  // doesn't take forever to finish revealing - everything past the
-  // fourth child just lands on the same beat as the fourth
-  Array.from(group.children).forEach((child, i) => {
-    // [data-defer-reveal] (the cover marquee) opts out of this
-    // system entirely - it has its own image-load-gated fade further
-    // down, instead of revealing on the same schedule as its siblings
-    if (child.hasAttribute('data-defer-reveal')) return;
-
-    child.classList.add('reveal');
-    child.style.transitionDelay = `${Math.min(i, 4) * 90}ms`;
-  });
-});
-
-if (prefersReducedMotion) {
-  // skip the staggering entirely rather than firing it all at once -
-  // same courtesy given to the waveform bars and hero zoom above
-  revealGroups.forEach((group) => group.classList.add('is-visible'));
-} else {
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target); // reveals once - scrolling back up shouldn't hide it again
-      }
-    });
-  }, { threshold: 0.15 });
+  const revealGroups = document.querySelectorAll('[data-reveal-group]');
 
   revealGroups.forEach((group) => {
-    if (group === hero) {
-      group.classList.add('is-visible'); // already on screen at load - nothing to scroll to
-    } else {
-      revealObserver.observe(group);
-    }
+    // capped at 4 steps so a section with lots of children (like the
+    // track record, with its stats grid and several paragraphs)
+    // doesn't take forever to finish revealing - everything past the
+    // fourth child just lands on the same beat as the fourth
+    Array.from(group.children).forEach((child, i) => {
+      // [data-defer-reveal] (the cover marquee, the FAQ block) opts
+      // out of this system entirely - each has its own reveal timing
+      // further down, instead of fading on the same schedule as its
+      // siblings here
+      if (child.hasAttribute('data-defer-reveal')) return;
+
+      child.classList.add('reveal');
+      child.style.transitionDelay = `${Math.min(i, 4) * 90}ms`;
+    });
   });
 
+  if (prefersReducedMotion) {
+    // skip the staggering entirely rather than firing it all at once -
+    // same courtesy given to the waveform bars and hero zoom above
+    revealGroups.forEach((group) => group.classList.add('is-visible'));
+  } else {
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target); // reveals once - scrolling back up shouldn't hide it again
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealGroups.forEach((group) => {
+      if (group === hero) {
+        group.classList.add('is-visible'); // already on screen at load - nothing to scroll to
+      } else {
+        revealObserver.observe(group);
+      }
+    });
+
+  }
+
+  // Only now - everything above succeeded - is it safe to let
+  // styles.css actually hide anything. See the comment at the top of
+  // this block for why this line has to come last.
+  document.documentElement.classList.add('reveal-enabled');
+
+} catch (err) {
+  console.error('Scroll reveal failed to set up - content stays visible by default', err);
 }
 
 /* ===========================================================
@@ -273,19 +292,30 @@ if (prefersReducedMotion) {
 const coverMarquee = document.querySelector('.cover-marquee');
 
 if (coverMarquee) {
+  try {
 
-  const marqueeImages = Array.from(coverMarquee.querySelectorAll('img'));
+    const marqueeImages = Array.from(coverMarquee.querySelectorAll('img'));
 
-  const whenLoaded = (img) => {
-    if (img.complete) return Promise.resolve(); // already cached/loaded
-    return new Promise((resolve) => {
-      img.addEventListener('load', resolve, { once: true });
-      img.addEventListener('error', resolve, { once: true }); // don't hang forever on one broken file
+    const whenLoaded = (img) => {
+      if (img.complete) return Promise.resolve(); // already cached/loaded
+      return new Promise((resolve) => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true }); // don't hang forever on one broken file
+      });
+    };
+
+    // Only past this point does styles.css's .marquee-pending rule
+    // actually hide the strip (see the CSS comment there) - added
+    // last, same reasoning as .reveal-enabled above, so a failure
+    // anywhere in this block can't leave the marquee stuck invisible
+    // with nothing left to un-hide it.
+    coverMarquee.classList.add('marquee-pending');
+
+    Promise.all(marqueeImages.map(whenLoaded)).then(() => {
+      coverMarquee.classList.add('loaded');
     });
-  };
 
-  Promise.all(marqueeImages.map(whenLoaded)).then(() => {
-    coverMarquee.classList.add('loaded');
-  });
-
+  } catch (err) {
+    console.error('Cover marquee reveal failed to set up - images stay visible by default', err);
+  }
 }
