@@ -24,9 +24,9 @@
        support SVG favicons; apple-touch-icon.png is what iOS uses
        specifically for "Add to Home Screen," which requires a PNG
        and won't accept the SVG or ICO. -->
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
   <!-- THEME: dark is the site's default. If the visitor has switched
        to light before, that choice was saved in localStorage (see
@@ -66,13 +66,13 @@
        brand name, a plain "body" font for readable paragraph text, and a
        "mono" font kept in reserve for small labels -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=Space+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=Space+Mono&display=swap" rel="stylesheet">
 
   <!-- All styling now lives in one shared file, styles.css, instead of
        being repeated inside a <style> block on every page. Both this
        page and pricing.html link to the same file, so a color/font
        change made once applies everywhere. -->
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -84,7 +84,7 @@
        it's only two pages, that's simpler than building a
        templating system just for this. -->
   <nav class="nav">
-    <a class="brand" href="/">
+    <a class="brand" href="index.html">
       <!-- Mini copy of the hero's waveform - starts invisible
            (see .waveform--nav in styles.css) and fades in once
            script.js's IntersectionObserver reports the real one,
@@ -103,7 +103,7 @@
       <ul id="navLinks">
         <li><a href="#about">About</a></li>
         <li><a href="#credibility">Track Record</a></li>
-        <li><a href="/pricing/">Pricing</a></li>
+        <li><a href="pricing/index.html">Pricing</a></li>
         <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
       </ul>
 
@@ -327,7 +327,7 @@
        hamburger-menu logic only has to be written once. defer makes
        it run after the HTML is parsed, so navToggle/navLinks exist
        by the time the script looks for them. -->
-  <script src="/script.js" defer></script>
+  <script src="script.js" defer></script>
 
 </body>
 </html>

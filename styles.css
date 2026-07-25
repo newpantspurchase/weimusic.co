@@ -31,8 +31,9 @@
   --on-accent: #14161c;
 
   --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Plus Jakarta Sans', sans-serif;
+  --font-h1: 'Plus Jakarta Sans', sans-serif;
 
   /* Shared timing for every color/background that changes when the
      theme flips - one value here keeps the whole page feeling like
@@ -261,7 +262,7 @@ html {
 }
 
 .hero h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-h1);
   font-weight: 700;
   font-size: clamp(4rem, 15vw, 9rem);
   line-height: 0.9;
@@ -454,7 +455,7 @@ html {
 }
 
 .pricing-page h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-h1);
   font-size: clamp(2.2rem, 6vw, 3.5rem);
 }
 
@@ -902,6 +903,9 @@ html {
   padding: 4vw 8vw;
   border-top: 1px solid var(--border);
   transition: border-color var(--theme-transition);
+  font-family: 'Inter', sans-serif; /* original footer treatment,
+    kept independent of --font-body so it doesn't follow whatever
+    the rest of the site is set to */
 }
 
 .footer-links {
@@ -938,6 +942,7 @@ html {
 .footer-note {
   color: var(--text-muted);
   font-size: 0.8rem;
-  font-family: var(--font-mono); /* matches the mono treatment used on price-card labels and the CTA button */
+  font-family: 'Space Mono', monospace; /* original treatment - kept
+    independent of --font-mono for the same reason as .site-footer above */
   transition: color var(--theme-transition);
 }
