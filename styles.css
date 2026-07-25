@@ -645,14 +645,18 @@ html {
 ============================================================ */
 .faq {
   margin-top: 3rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--border);
+  background: var(--bg-soft); /* same slightly-lifted shade as .about
+    and the price cards - a visible break from the page background so
+    there's a clear cue that there's more to scroll to, not just a
+    thin divider line easy to miss */
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   width: 100%;
   max-width: 700px; /* matches .pricing-grid's max-width above, so both line up */
-  transition: border-color var(--theme-transition);
+  transition: background-color var(--theme-transition);
 }
 
 .faq h2 {
