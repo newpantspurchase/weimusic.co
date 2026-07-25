@@ -93,16 +93,16 @@
        <main> is correct here, since pricing IS the primary content
        of this particular page (unlike on index.html, where it was
        one section among several) -->
-  <main class="pricing-page">
+  <main class="pricing-page" data-reveal-group>
 
-    <h1>Lessons &amp; pricing</h1>
+    <h1 class="reveal">Lessons &amp; pricing</h1>
 
-    <p class="intro">
+    <p class="intro reveal">
       Straightforward pricing. Try a lesson for free,
       decide what pace works for you.
     </p>
 
-    <div class="pricing-grid">
+    <div class="pricing-grid reveal">
       <div class="price-card">
         <div class="plan-name">Single Lesson</div>
         <div class="plan-price">$75<span> AUD/hr</span></div>
@@ -115,7 +115,7 @@
       </div>
     </div>
 
-    <a class="cta" href="mailto:w@weimusic.co">Book a lesson</a>
+    <a class="cta reveal" href="mailto:w@weimusic.co">Book a lesson</a>
     <!-- kept right below the pricing instead of after the FAQ, so
          booking doesn't require scrolling past all eight questions
          first - the FAQ below is for whoever still wants it, not a
@@ -124,10 +124,10 @@
     <!-- ============ FAQ ============
          <details>/<summary> is a native, built-in HTML accordion -
          click to expand, no JavaScript needed. -->
-    <section class="faq" aria-label="Frequently asked questions">
-      <h2>Frequently asked questions</h2>
+    <section class="faq reveal" aria-label="Frequently asked questions" data-reveal-group>
+      <h2 class="reveal">Frequently asked questions</h2>
 
-      <div class="faq-list">
+      <div class="faq-list reveal">
         <details class="faq-item">
           <summary>What can you help me with?</summary>
           <p>Music production, sound design, audio mixing, and music to picture (scoring and syncing music to video).</p>
@@ -165,7 +165,7 @@
 
       </div>
 
-      <p class="faq-closing">Feel free to <a href="mailto:w@weimusic.co">reach out</a> if you have any specific questions.</p>
+      <p class="faq-closing reveal">Feel free to <a href="mailto:w@weimusic.co">reach out</a> if you have any specific questions.</p>
     </section>
 
   </main>

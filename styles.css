@@ -289,22 +289,93 @@ html {
   width: 6px;
   background: var(--accent);
   border-radius: 2px;
-  animation: bounce 1.2s ease-in-out infinite;
+  transform-origin: bottom;
 }
 
-.waveform span:nth-child(1) { height: 40%; animation-delay: 0s; }
-.waveform span:nth-child(2) { height: 80%; animation-delay: 0.15s; }
-.waveform span:nth-child(3) { height: 55%; animation-delay: 0.3s; }
-.waveform span:nth-child(4) { height: 90%; animation-delay: 0.45s; }
-.waveform span:nth-child(5) { height: 35%; animation-delay: 0.6s; }
+/* Each bar gets its own irregular, multi-beat pattern and its own
+   duration, instead of all five sharing one simple up-down loop -
+   reads closer to a real waveform's uneven texture than a metronome.
+   The durations (0.9s/1.3s/1.05s/1.5s/0.8s) are deliberately not
+   round multiples of one another, so the combined five-bar pattern
+   takes a long time to visibly repeat. */
+.waveform span:nth-child(1) { height: 40%; animation: wave-1 0.9s ease-in-out infinite; }
+.waveform span:nth-child(2) { height: 80%; animation: wave-2 1.3s ease-in-out infinite; }
+.waveform span:nth-child(3) { height: 55%; animation: wave-3 1.05s ease-in-out infinite; }
+.waveform span:nth-child(4) { height: 90%; animation: wave-4 1.5s ease-in-out infinite; }
+.waveform span:nth-child(5) { height: 35%; animation: wave-5 0.8s ease-in-out infinite; }
 
-@keyframes bounce {
-  0%, 100% { transform: scaleY(0.4); }
-  50%      { transform: scaleY(1); }
+@keyframes wave-1 {
+  0%   { transform: scaleY(0.3); }
+  30%  { transform: scaleY(0.9); }
+  55%  { transform: scaleY(0.5); }
+  80%  { transform: scaleY(1); }
+  100% { transform: scaleY(0.3); }
+}
+@keyframes wave-2 {
+  0%   { transform: scaleY(0.6); }
+  25%  { transform: scaleY(1); }
+  50%  { transform: scaleY(0.4); }
+  75%  { transform: scaleY(0.8); }
+  100% { transform: scaleY(0.6); }
+}
+@keyframes wave-3 {
+  0%   { transform: scaleY(0.4); }
+  35%  { transform: scaleY(0.85); }
+  60%  { transform: scaleY(1); }
+  85%  { transform: scaleY(0.5); }
+  100% { transform: scaleY(0.4); }
+}
+@keyframes wave-4 {
+  0%   { transform: scaleY(0.7); }
+  20%  { transform: scaleY(0.35); }
+  50%  { transform: scaleY(1); }
+  75%  { transform: scaleY(0.6); }
+  100% { transform: scaleY(0.7); }
+}
+@keyframes wave-5 {
+  0%   { transform: scaleY(0.35); }
+  30%  { transform: scaleY(0.75); }
+  55%  { transform: scaleY(0.45); }
+  80%  { transform: scaleY(0.95); }
+  100% { transform: scaleY(0.35); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .waveform span { animation: none; }
+}
+
+/* ===========================================================
+   SCROLL REVEAL RHYTHM
+   Companion to the JS in script.js. Elements inside a
+   [data-reveal-group] container start hidden and slightly lower,
+   then fade/slide in - script.js staggers each child's own
+   transition-delay so a section's pieces land one after another on
+   a short beat instead of all appearing at once.
+============================================================ */
+[data-reveal-group] > .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+[data-reveal-group].is-visible > .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* The hero is the one reveal group with something else already
+   claiming `transform` on its children - script.js scales .hero up
+   as you scroll past it, and counter-scales these same children back
+   down to keep the text steady (see HERO SCROLL ZOOM there). Sliding
+   them too would fight that, so the hero only fades in. */
+[data-reveal-group="fade"] > .reveal {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal-group] > .reveal {
+    transition: none;
+  }
 }
 
 /* ===========================================================
@@ -439,6 +510,53 @@ html {
   font-style: normal;
   font-size: 0.85rem;
   color: var(--text-muted);
+}
+
+/* ===========================================================
+   COVER ART MARQUEE
+   A continuous, seamlessly-looping strip of release covers - the
+   track record made visual instead of just numbers. The HTML lists
+   every cover TWICE back to back; animating exactly -50% shifts the
+   strip by precisely one full set's width, so the moment the first
+   set has scrolled off, the (identical) second set is sitting
+   exactly where the first one started - no visible seam or reset.
+============================================================ */
+.cover-marquee {
+  width: 100%;
+  overflow: hidden;
+  margin: 0.5rem 0;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+          mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.cover-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 12px;
+  animation: cover-marquee-scroll 35s linear infinite;
+}
+
+.cover-marquee:hover .cover-marquee-track {
+  animation-play-state: paused; /* lets a visitor actually look at one instead of it sliding away */
+}
+
+.cover-marquee-track img {
+  height: 110px;
+  width: 110px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--bg-soft); /* visible placeholder shape until the real cover files are added */
+}
+
+@keyframes cover-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cover-marquee-track { animation: none; }
+  .cover-marquee { overflow-x: auto; } /* still browsable, just not auto-scrolling */
 }
 
 /* ===========================================================
@@ -652,7 +770,7 @@ html {
 
 /* Mini copy of the hero's waveform, living inside the nav brand
    link. Reuses .waveform's flex/gap and .waveform span's bar shape
-   + bounce animation as-is (the bar heights below are percentages
+   + per-bar animations as-is (the bar heights below are percentages
    of this element's own height, so they scale down automatically -
    no need to redeclare them). Hidden until .nav gets .show-waveform
    from script.js's IntersectionObserver, once the real one in the

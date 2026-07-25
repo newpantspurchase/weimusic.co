@@ -158,19 +158,19 @@
        .hero-wrap's only job is overflow: hidden, clipping that
        spill so the zoom doesn't bleed into the section below. -->
   <div class="hero-wrap">
-  <header class="hero">
+  <header class="hero" data-reveal-group="fade">
 
-    <p class="eyebrow">Music Production Lessons</p>
+    <p class="eyebrow reveal">Music Production Lessons</p>
     <!-- small label above the brand name -->
 
-    <h1>WEI</h1>
+    <h1 class="reveal">WEI</h1>
     <!-- the brand name. There should only ever be ONE <h1> per page -
          it's the single most important heading, like a book title -->
 
-    <p class="tagline">Find your sound</p>
+    <p class="tagline reveal">Find your sound</p>
     <!-- the slogan -->
 
-    <div class="waveform" aria-hidden="true">
+    <div class="waveform reveal" aria-hidden="true">
       <!-- aria-hidden="true" tells screen readers to skip this -
            it's purely decorative, not information anyone needs read aloud -->
       <span></span><span></span><span></span><span></span><span></span>
@@ -185,19 +185,19 @@
   <!-- ============ ABOUT + CTA ============
        <main> wraps the primary content of the page - the "meat" of
        the site as opposed to header/footer/navigation chrome -->
-  <main class="about" id="about">
+  <main class="about" id="about" data-reveal-group>
 
-    <h2>Imagination in music production</h2>
+    <h2 class="reveal">Imagination in music production</h2>
     <!-- <h2> is one level below <h1> - correct for a section heading -->
 
-    <p>
+    <p class="reveal">
       WEI gives the keys to unlock imagination in sound.
       Through his lessons, WEI empowers students to express their own
       individuality and musical voice.
       Guidance shaped by years of experience.
     </p>
 
-    <a class="cta" href="mailto:w@weimusic.co">Book a lesson</a>
+    <a class="cta reveal" href="mailto:w@weimusic.co">Book a lesson</a>
     <!-- clicking this opens the visitor's email app with a new message
          addressed to w@weimusic.co -->
 
@@ -207,11 +207,11 @@
        <section> is the right tag here - it's a standalone chunk of
        content with its own heading, but not the single primary
        content of the page the way <main> is -->
-  <section class="credibility" id="credibility">
+  <section class="credibility" id="credibility" data-reveal-group>
 
-    <h2>The track record</h2>
+    <h2 class="reveal">The track record</h2>
 
-    <div class="stats-grid">
+    <div class="stats-grid reveal">
       <!-- each .stat is one number + label pair. Using <div> here
            since there's no more semantically correct tag for a
            standalone stat callout -->
@@ -233,22 +233,82 @@
       </div>
     </div>
 
+    <!-- ============ COVER ART MARQUEE ============
+         A continuous strip of release covers, listed twice back to
+         back so styles.css's animation can loop it seamlessly (see
+         the comment there). Purely visual - aria-hidden since the
+         Spotify embed below is the real, accessible way to browse
+         the catalog.
 
-    <p class="credentials">
+         Pulls straight from images/Marquee_covers/ - whatever's
+         actually in that folder is what's listed below (the whole
+         set appears twice back to back, for the seamless loop). Add
+         or swap files there and let me know - I'll update this list
+         to match. -->
+    <div class="cover-marquee reveal" aria-hidden="true">
+      <div class="cover-marquee-track">
+        <img src="images/Marquee_covers/Backseat.jpg" alt="Backseat" loading="lazy">
+        <img src="images/Marquee_covers/Bubble%20Tea%20rework.JPG" alt="Bubble Tea rework" loading="lazy">
+        <img src="images/Marquee_covers/ElijahNangxWEI-nangwei_art.jpg" alt="ElijahNangxWEI-nangwei art" loading="lazy">
+        <img src="images/Marquee_covers/Feel%20Trip%20-%20my%20wishes%20saved.PNG" alt="Feel Trip - my wishes saved" loading="lazy">
+        <img src="images/Marquee_covers/Fjunxwei-tomorrow.jpg" alt="Fjunxwei-tomorrow" loading="lazy">
+        <img src="images/Marquee_covers/Front%20Cover%20Gaijin%202.jpg" alt="Front Cover Gaijin 2" loading="lazy">
+        <img src="images/Marquee_covers/Golden%20Gates.jpg" alt="Golden Gates" loading="lazy">
+        <img src="images/Marquee_covers/IMG_1874.jpg" alt="IMG 1874" loading="lazy">
+        <img src="images/Marquee_covers/Loyal_Cover%20Art.jpg" alt="Loyal Cover Art" loading="lazy">
+        <img src="images/Marquee_covers/NOTFINAL_DTS_Philia_Daniel_Faro%CC%80_Photo_ID4683.jpg" alt="NOTFINAL DTS Philia Daniel Farò Photo ID4683" loading="lazy">
+        <img src="images/Marquee_covers/Persona.png" alt="Persona" loading="lazy">
+        <img src="images/Marquee_covers/Vinci_LazlowxWEI.jpg" alt="Vinci LazlowxWEI" loading="lazy">
+        <img src="images/Marquee_covers/WEI%20-%20%5BNeverland%5D%20Bazaar%2030-9%20final.jpg" alt="WEI - [Neverland] Bazaar 30-9 final" loading="lazy">
+        <img src="images/Marquee_covers/WEI%20Cover%20%282022%29.png" alt="WEI Cover (2022)" loading="lazy">
+        <img src="images/Marquee_covers/WEI%2C%20Cotton%20Duck%20-%20Solstice%20EP%20Artwork%20.jpeg" alt="WEI, Cotton Duck - Solstice EP Artwork" loading="lazy">
+        <img src="images/Marquee_covers/cute%20shh.jpeg" alt="cute shh" loading="lazy">
+        <img src="images/Marquee_covers/fizzyliftingdrinks.jpeg" alt="fizzyliftingdrinks" loading="lazy">
+        <img src="images/Marquee_covers/halls%20i%20dream%20of%20final.jpg" alt="halls i dream of final" loading="lazy">
+        <img src="images/Marquee_covers/hines_simla.png" alt="hines simla" loading="lazy">
+        <img src="images/Marquee_covers/into%20your%20arms....jpeg" alt="into your arms..." loading="lazy">
+        <img src="images/Marquee_covers/willamber3.jpg" alt="willamber3" loading="lazy">
+        <img src="images/Marquee_covers/youth.JPG" alt="youth" loading="lazy">
+        <img src="images/Marquee_covers/Backseat.jpg" alt="Backseat" loading="lazy">
+        <img src="images/Marquee_covers/Bubble%20Tea%20rework.JPG" alt="Bubble Tea rework" loading="lazy">
+        <img src="images/Marquee_covers/ElijahNangxWEI-nangwei_art.jpg" alt="ElijahNangxWEI-nangwei art" loading="lazy">
+        <img src="images/Marquee_covers/Feel%20Trip%20-%20my%20wishes%20saved.PNG" alt="Feel Trip - my wishes saved" loading="lazy">
+        <img src="images/Marquee_covers/Fjunxwei-tomorrow.jpg" alt="Fjunxwei-tomorrow" loading="lazy">
+        <img src="images/Marquee_covers/Front%20Cover%20Gaijin%202.jpg" alt="Front Cover Gaijin 2" loading="lazy">
+        <img src="images/Marquee_covers/Golden%20Gates.jpg" alt="Golden Gates" loading="lazy">
+        <img src="images/Marquee_covers/IMG_1874.jpg" alt="IMG 1874" loading="lazy">
+        <img src="images/Marquee_covers/Loyal_Cover%20Art.jpg" alt="Loyal Cover Art" loading="lazy">
+        <img src="images/Marquee_covers/NOTFINAL_DTS_Philia_Daniel_Faro%CC%80_Photo_ID4683.jpg" alt="NOTFINAL DTS Philia Daniel Farò Photo ID4683" loading="lazy">
+        <img src="images/Marquee_covers/Persona.png" alt="Persona" loading="lazy">
+        <img src="images/Marquee_covers/Vinci_LazlowxWEI.jpg" alt="Vinci LazlowxWEI" loading="lazy">
+        <img src="images/Marquee_covers/WEI%20-%20%5BNeverland%5D%20Bazaar%2030-9%20final.jpg" alt="WEI - [Neverland] Bazaar 30-9 final" loading="lazy">
+        <img src="images/Marquee_covers/WEI%20Cover%20%282022%29.png" alt="WEI Cover (2022)" loading="lazy">
+        <img src="images/Marquee_covers/WEI%2C%20Cotton%20Duck%20-%20Solstice%20EP%20Artwork%20.jpeg" alt="WEI, Cotton Duck - Solstice EP Artwork" loading="lazy">
+        <img src="images/Marquee_covers/cute%20shh.jpeg" alt="cute shh" loading="lazy">
+        <img src="images/Marquee_covers/fizzyliftingdrinks.jpeg" alt="fizzyliftingdrinks" loading="lazy">
+        <img src="images/Marquee_covers/halls%20i%20dream%20of%20final.jpg" alt="halls i dream of final" loading="lazy">
+        <img src="images/Marquee_covers/hines_simla.png" alt="hines simla" loading="lazy">
+        <img src="images/Marquee_covers/into%20your%20arms....jpeg" alt="into your arms..." loading="lazy">
+        <img src="images/Marquee_covers/willamber3.jpg" alt="willamber3" loading="lazy">
+        <img src="images/Marquee_covers/youth.JPG" alt="youth" loading="lazy">
+      </div>
+    </div>
+
+    <p class="credentials reveal">
       Releasing music since 2016, <strong>WEI has over 150 released
       works</strong> on streaming services.
     </p>
 
-    <p class="credentials">
+    <p class="credentials reveal">
       He currently works in his studio in Melbourne, Australia.
     </p>
 
-    <p class="credentials">
+    <p class="credentials reveal">
       He believes strongly in the power of collaboration and trust
       in the writing process.
     </p>
 
-    <p class="credentials">
+    <p class="credentials reveal">
       WEI holds a degree in Electronic Production and Design (EPD)
       from <strong>Berklee College of Music</strong>, and has guided
       dozens of students. He has taught group and private lessons in
@@ -258,7 +318,7 @@
     </p>
 
     <!-- SPOTIFY EMBED -->
-    <div class="spotify-embed">
+    <div class="spotify-embed reveal">
       <iframe
         src="https://open.spotify.com/embed/artist/2jOSQFHIeUc2OcPx8tSaTw?utm_source=generator&theme=0"
         width="100%"

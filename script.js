@@ -194,3 +194,56 @@ if (heroWaveform && nav) {
   waveformObserver.observe(heroWaveform);
 
 }
+
+/* ===========================================================
+   SCROLL REVEAL RHYTHM
+   Companion to the [data-reveal-group] / .reveal styling in
+   styles.css. Rather than a whole section just appearing as you
+   scroll to it, each direct child of a reveal group gets its own
+   transition-delay here, so the pieces land one after another on a
+   short beat (heading, then body copy, then CTA) instead of all at
+   once - the scroll equivalent of the waveform's rhythm, rather than
+   a flat fade.
+
+   The hero is a special case: it's visible immediately on load, not
+   scrolled to, so it reveals itself right away below instead of
+   waiting on an IntersectionObserver.
+============================================================ */
+
+const revealGroups = document.querySelectorAll('[data-reveal-group]');
+
+revealGroups.forEach((group) => {
+  // capped at 4 steps so a section with lots of children (like the
+  // track record, with its stats grid and several paragraphs)
+  // doesn't take forever to finish revealing - everything past the
+  // fourth child just lands on the same beat as the fourth
+  Array.from(group.children).forEach((child, i) => {
+    child.classList.add('reveal');
+    child.style.transitionDelay = `${Math.min(i, 4) * 90}ms`;
+  });
+});
+
+if (prefersReducedMotion) {
+  // skip the staggering entirely rather than firing it all at once -
+  // same courtesy given to the waveform bars and hero zoom above
+  revealGroups.forEach((group) => group.classList.add('is-visible'));
+} else {
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target); // reveals once - scrolling back up shouldn't hide it again
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealGroups.forEach((group) => {
+    if (group === hero) {
+      group.classList.add('is-visible'); // already on screen at load - nothing to scroll to
+    } else {
+      revealObserver.observe(group);
+    }
+  });
+
+}
