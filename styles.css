@@ -336,7 +336,8 @@ html {
   padding: 0.9rem 1.8rem;
   background: var(--accent);
   color: var(--on-accent);
-  font-family: var(--font-mono);
+  font-family: 'Space Mono', monospace; /* original CTA treatment,
+    kept independent of --font-mono like the footer */
   font-size: 0.9rem;
   letter-spacing: 0.05em;
   text-decoration: none;
