@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing - WEI Music Production</title>
+
+  <!-- same favicon setup as index.html - see the comment there -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- same dark-by-default theme script as index.html - see the
+       comment there for why it has to be inline and synchronous -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      document.documentElement.setAttribute('data-theme', saved || 'dark');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=Space+Mono&display=swap" rel="stylesheet">
+
+  <!-- same shared stylesheet as index.html - this is the whole
+       point of pulling the CSS out into its own file earlier -->
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+
+  <!-- Same nav as index.html. "About" and "Track Record" point back
+       to sections on the homepage (/#about), since those
+       sections don't exist on this page. "Pricing" has no href
+       needed as a link back to itself, so it's left as a visual
+       label rather than a functional dead link. -->
+  <!-- show-waveform is set directly here (not toggled by script.js
+       like on index.html) because this page has no hero section to
+       scroll past - there's nothing to observe, so the mini waveform
+       is just always on. This also keeps .nav .brand's shape
+       consistent with index.html's scrolled-past-hero state, which
+       matters now that the view-transition between pages morphs the
+       logo directly - mismatched shapes on either end is what was
+       making that transition look misaligned. -->
+  <nav class="nav show-waveform">
+    <a class="brand" href="/">
+      <!-- same mini waveform as index.html - see the comment there -->
+      <div class="waveform waveform--nav" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span class="brand-text">WEI</span>
+    </a>
+
+    <!-- same nav-right group (links, theme switch, hamburger) as
+         index.html - see the comments there for how it all works -->
+    <div class="nav-right">
+
+      <ul id="navLinks">
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#credibility">Track Record</a></li>
+        <li><a href="/pricing/">Pricing</a></li>
+        <li><a href="mailto:w@weimusic.co">Book a Lesson</a></li>
+      </ul>
+
+      <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Toggle light and dark mode">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="12" y1="2" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line>
+          <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line>
+          <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>
+        </svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="char" aria-hidden="true">偉</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ============ PRICING ============
+       <main> is correct here, since pricing IS the primary content
+       of this particular page (unlike on index.html, where it was
+       one section among several) -->
+  <main class="pricing-page">
+
+    <h1>Lessons &amp; pricing</h1>
+
+    <p class="intro">
+      Straightforward pricing. Try a lesson for free,
+      decide what pace works for you.
+    </p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="plan-name">Single Lesson</div>
+        <div class="plan-price">$75<span> AUD/hr</span></div>
+        <p class="plan-note">First lesson is free - no cost to see if it's the right fit.</p>
+      </div>
+      <div class="price-card">
+        <div class="plan-name">3-Lesson Pack</div>
+        <div class="plan-price">$60<span> AUD/lesson</span></div>
+        <p class="plan-note">$180 AUD total for three lessons - the best rate for students committing to steady progress.</p>
+      </div>
+    </div>
+
+    <a class="cta" href="mailto:w@weimusic.co">Book a lesson</a>
+    <!-- kept right below the pricing instead of after the FAQ, so
+         booking doesn't require scrolling past all eight questions
+         first - the FAQ below is for whoever still wants it, not a
+         gate in front of the CTA -->
+
+    <!-- ============ FAQ ============
+         <details>/<summary> is a native, built-in HTML accordion -
+         click to expand, no JavaScript needed. -->
+    <section class="faq" aria-label="Frequently asked questions">
+      <h2>Frequently asked questions</h2>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>What can you help me with?</summary>
+          <p>Music production, sound design, audio mixing, and music to picture (scoring and syncing music to video).</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do you teach online or in person?</summary>
+          <p>Both - lessons run over Zoom or in person, whichever works better for you.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What software do you teach in?</summary>
+          <p>Mainly Logic Pro, with Ableton Live as well - happy to work in whichever one you're more comfortable in, or help you get started if you haven't picked one yet.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What level should I be at to start?</summary>
+          <p>Any level - from total beginners who've never opened a DAW before, to advanced producers looking to sharpen a specific skill.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is there an age requirement?</summary>
+          <p>No - lessons are open to all ages. Bringing production to as many different people as possible is part of the mission here.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What happens in the free first lesson?</summary>
+          <p>It's a chance to meet, talk about what you want to get out of lessons, and make sure the pace and approach are the right fit - no cost, no obligation to continue.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I reschedule or cancel a lesson?</summary>
+          <p>Life happens - just reach out by email as soon as you can and we'll find a new time that works.</p>
+        </details>
+
+      </div>
+
+      <p class="faq-closing">Feel free to <a href="mailto:w@weimusic.co">reach out</a> if you have any specific questions.</p>
+    </section>
+
+  </main>
+
+  <!-- same footer as index.html - see the comment there -->
+  <footer class="site-footer">
+    <!-- same icon setup as index.html - see the comment there -->
+    <div class="footer-links">
+      <a href="https://open.spotify.com/artist/2jOSQFHIeUc2OcPx8tSaTw" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M7 15.5c3-1.2 7-1.2 10 0.3"></path>
+          <path d="M6.5 12c3.5-1.4 8-1.4 11 0.3"></path>
+          <path d="M6 8.5c4-1.6 9-1.6 12.5 0.4"></path>
+        </svg>
+        Spotify
+      </a>
+      <a href="mailto:w@weimusic.co">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+          <path d="M22 6l-10 7L2 6"></path>
+        </svg>
+        Email
+      </a>
+      <a href="https://instagram.com/musicofwei" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        Instagram
+      </a>
+    </div>
+    <p class="footer-note">&copy; 2026 WEI. All rights reserved.</p>
+  </footer>
+
+  <!-- shared with index.html - see the comment there -->
+  <script src="/script.js" defer></script>
+
+</body>
+</html>
