@@ -218,6 +218,11 @@ revealGroups.forEach((group) => {
   // doesn't take forever to finish revealing - everything past the
   // fourth child just lands on the same beat as the fourth
   Array.from(group.children).forEach((child, i) => {
+    // [data-defer-reveal] (the cover marquee) opts out of this
+    // system entirely - it has its own image-load-gated fade further
+    // down, instead of revealing on the same schedule as its siblings
+    if (child.hasAttribute('data-defer-reveal')) return;
+
     child.classList.add('reveal');
     child.style.transitionDelay = `${Math.min(i, 4) * 90}ms`;
   });
@@ -244,6 +249,43 @@ if (prefersReducedMotion) {
     } else {
       revealObserver.observe(group);
     }
+  });
+
+}
+
+/* ===========================================================
+   COVER MARQUEE - WAIT FOR IMAGES BEFORE SHOWING
+   The marquee opted out of the generic reveal system above (see the
+   data-reveal-group loop's data-defer-reveal check) because that
+   system only waits on scroll position - it doesn't know whether an
+   image has actually finished downloading yet. Revealing on that
+   schedule meant the section could fade in while the covers were
+   still empty, showing the placeholder background color underneath
+   each <img> for a beat before the real picture popped in.
+
+   This waits for every image in the strip to actually finish loading
+   (or fail - allSettled means one broken image doesn't block the
+   rest forever) before adding .loaded, which is what actually fades
+   the marquee in - see .cover-marquee / .cover-marquee.loaded in
+   styles.css.
+============================================================ */
+
+const coverMarquee = document.querySelector('.cover-marquee');
+
+if (coverMarquee) {
+
+  const marqueeImages = Array.from(coverMarquee.querySelectorAll('img'));
+
+  const whenLoaded = (img) => {
+    if (img.complete) return Promise.resolve(); // already cached/loaded
+    return new Promise((resolve) => {
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true }); // don't hang forever on one broken file
+    });
+  };
+
+  Promise.all(marqueeImages.map(whenLoaded)).then(() => {
+    coverMarquee.classList.add('loaded');
   });
 
 }

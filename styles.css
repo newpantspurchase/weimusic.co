@@ -527,13 +527,22 @@ html {
   margin: 0.5rem 0;
   -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
           mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Set by script.js only once every cover image has actually finished
+   loading - keeps the empty placeholder-colored tiles (see
+   .cover-marquee-track img below) from ever being visible. */
+.cover-marquee.loaded {
+  opacity: 1;
 }
 
 .cover-marquee-track {
   display: flex;
   width: max-content;
   gap: 12px;
-  animation: cover-marquee-scroll 35s linear infinite;
+  animation: cover-marquee-scroll 90s linear infinite;
 }
 
 .cover-marquee:hover .cover-marquee-track {
