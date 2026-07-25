@@ -46,6 +46,14 @@
      than everything else rather than matching exactly. */
   --hero-fade: 1s ease;
 
+  /* How much of .hero::before's tint sits over the hero art (see
+     that rule further down). Not a one-size-fits-all number between
+     themes - the dark art holds up with very little tint, but the
+     light photo needs more coverage for the hero text to stay
+     legible on top of it, so this is themed just like the colors
+     above rather than a flat value on the rule itself. */
+  --hero-tint-opacity: 0.6;
+
   color-scheme: dark;
 }
 
@@ -53,12 +61,12 @@
    LIGHT THEME
    Overrides the tokens above when <html data-theme="light">.
    script.js flips that attribute when the switch in the nav is
-   clicked; the inline snippet in each page's <head> sets it
-   first, before paint, by flipping a coin (see that comment for
-   why). Everything else in this file just reads var(--bg),
-   var(--text), etc, so the whole site re-colors itself
-   automatically - nothing below this block needs to know a light
-   theme exists.
+   clicked; the inline snippet in each page's <head> sets it first,
+   before paint (dark by default, or whatever was saved from a
+   previous visit - see that comment for why). Everything else in
+   this file just reads var(--bg), var(--text), etc, so the whole
+   site re-colors itself automatically - nothing below this block
+   needs to know a light theme exists.
 ============================================================ */
 [data-theme="light"] {
   --bg: #faf6f0;
@@ -69,6 +77,7 @@
   --accent: #c2536a;
   --accent-soft: rgba(194, 83, 106, 0.12);
   --border: rgba(32, 29, 26, 0.12);
+  --hero-tint-opacity: 0.78;
 
   color-scheme: light;
 }
@@ -186,11 +195,10 @@ html {
   inset: 0;
   z-index: 1; /* above both images (.hero's own bg + ::after), below the text */
   background: var(--bg);
-  /* lowered from 0.88 - less tint, more of the actual photo/artwork
-     showing through. Worth keeping an eye on text legibility if this
-     goes much lower, since the hero text sits directly on top of
-     whatever tint + image combination this produces */
-  opacity: 0.6;
+  /* themed per --hero-tint-opacity above (0.6 dark / 0.78 light) -
+     the dark art reads fine with a light touch, the light photo
+     needs more coverage to keep the hero text legible on top of it */
+  opacity: var(--hero-tint-opacity);
 
   /* Softens the hard line where the hero meets the section below.
      An inset shadow rather than a gradient background, deliberately -
@@ -201,7 +209,7 @@ html {
      whichever one is showing, without touching either image itself. */
   box-shadow: inset 0 -50px 40px -35px var(--bg);
 
-  transition: background-color var(--theme-transition), box-shadow var(--theme-transition);
+  transition: background-color var(--theme-transition), box-shadow var(--theme-transition), opacity var(--theme-transition);
   will-change: background-color; /* same reasoning as .hero::after above */
 }
 
@@ -717,4 +725,48 @@ html {
   .nav a {
     font-size: 0.95rem;
   }
+}
+
+/* ===========================================================
+   FOOTER
+   Same on both pages - see the HTML comment on .site-footer in
+   index.html for why it repeats the three contact links.
+============================================================ */
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4vw 8vw;
+  border-top: 1px solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap; /* so it still fits on narrow screens instead of overflowing */
+  justify-content: center;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  /* fast, not var(--theme-transition) - same reasoning as .nav a's
+     hover: an immediate hover response reads better than syncing to
+     the slow page-wide theme fade */
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--text); /* same "reads white in dark, black in light" hover as the nav links */
+}
+
+.footer-note {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: var(--font-mono); /* matches the mono treatment used on price-card labels and the CTA button */
+  transition: color var(--theme-transition);
 }
