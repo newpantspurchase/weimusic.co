@@ -42,6 +42,26 @@
     })();
   </script>
 
+  <!-- Arriving at a URL like index.html#about (e.g. clicking "About"
+       from the pricing page's nav) triggers the browser's own
+       automatic jump to that section. Because html { scroll-behavior:
+       smooth } in styles.css applies to that automatic jump too, not
+       just to clicks made after the page has already loaded, it was
+       visibly animating a scroll down the page right after arriving -
+       which looks like a mistake, since there was nothing on screen
+       yet establishing a "before" position for that motion to make
+       sense against. Forcing scroll-behavior: auto here overrides it
+       just for that initial jump; script.js hands control back to the
+       smooth CSS behavior once the page has settled, so a visitor
+       clicking "About" while already on this page still gets a
+       smooth scroll - it's only the instant-arrival case that skips
+       it. -->
+  <script>
+    if (location.hash) {
+      document.documentElement.style.scrollBehavior = 'auto';
+    }
+  </script>
+
   <!-- Loading Google Fonts: three roles - a bold "display" font for the big
        brand name, a plain "body" font for readable paragraph text, and a
        "mono" font kept in reserve for small labels -->
@@ -72,7 +92,7 @@
       <div class="waveform waveform--nav" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>
       </div>
-      WEI
+      <span class="brand-text">WEI</span>
     </a>
 
     <!-- Everything on the right side of the nav (links, theme switch,

@@ -1,4 +1,45 @@
 /* ===========================================================
+   RESTORE SMOOTH SCROLL AFTER INITIAL LOAD
+   Companion to the inline script in index.html's <head> that forces
+   scroll-behavior: auto when arriving via a #hash link, so the
+   browser's automatic jump to that section is instant instead of a
+   visible scroll down the page. That override needs to be lifted
+   again once the page has settled, or every future in-page link
+   click would lose its smooth scroll too. Safe to run on every
+   page, hash or not - clearing a style that was never set just does
+   nothing.
+============================================================ */
+window.addEventListener('load', () => {
+  document.documentElement.style.scrollBehavior = '';
+});
+
+// declared once, up here, since a couple of unrelated blocks below
+// (the waveform reveal, and the settle-before-navigating block
+// right after this comment) both need a reference to the nav
+const nav = document.querySelector('.nav');
+
+/* ===========================================================
+   SETTLE NAV TRANSITIONS BEFORE LEAVING THE PAGE
+   Companion to the .nav.no-transition rule in styles.css. Any link
+   in the nav that goes to a different page - "About"/"Track Record"
+   (which point at index.html from pricing.html), "Pricing", or the
+   logo - gets one frame where every transition inside the nav is
+   forced to finish instantly before the browser actually navigates
+   away. That guarantees the view-transition engine always captures
+   a fully-settled snapshot of the nav, instead of possibly catching
+   the mini waveform mid fade-in/out if a link was clicked shortly
+   after scrolling past the hero.
+============================================================ */
+if (nav) {
+  nav.querySelectorAll('a[href]:not([href^="mailto:"])').forEach((link) => {
+    link.addEventListener('click', () => {
+      nav.classList.add('no-transition');
+      void nav.offsetHeight; // forces the browser to apply the instant state immediately, before navigation fires
+    });
+  });
+}
+
+/* ===========================================================
    MOBILE NAV TOGGLE
    Shared by index.html and pricing.html - same reasoning as the
    shared styles.css file: write the logic once, link it from both
@@ -131,7 +172,7 @@ if (hero && !prefersReducedMotion) {
 ============================================================ */
 
 const heroWaveform = document.querySelector('.hero .waveform');
-const nav = document.querySelector('.nav');
+// nav is already declared near the top of this file
 
 if (heroWaveform && nav) {
 
@@ -139,6 +180,15 @@ if (heroWaveform && nav) {
     // entry.isIntersecting is true while the hero waveform is still
     // on screen - show the nav's copy exactly when that flips false
     nav.classList.toggle('show-waveform', !entry.isIntersecting);
+  }, {
+    // Without this, "on screen" means anywhere in the full viewport -
+    // but the sticky nav's own ~64px visually covers the top of that
+    // viewport, so the hero waveform was getting hidden behind the
+    // nav before the observer noticed it was gone. That gap was the
+    // dead moment where neither waveform was visible. Shrinking the
+    // observer's effective viewport by the nav's height makes it
+    // flip at the same instant the real one visually disappears.
+    rootMargin: '-64px 0px 0px 0px'
   });
 
   waveformObserver.observe(heroWaveform);

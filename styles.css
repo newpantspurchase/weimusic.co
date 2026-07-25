@@ -82,6 +82,19 @@
   color-scheme: light;
 }
 
+/* ===========================================================
+   VIEW TRANSITIONS
+   Opts every internal link (index.html <-> pricing.html) into the
+   browser's built-in View Transitions API: instead of the page just
+   cutting instantly to the new one, the browser crossfades between
+   a snapshot of the old page and the new one. Progressive
+   enhancement - browsers that don't support this rule yet just
+   ignore it and navigate exactly as before, nothing breaks.
+============================================================ */
+@view-transition {
+  navigation: auto;
+}
+
 /* CSS RESET */
 * {
   margin: 0;
@@ -496,6 +509,101 @@ html {
 }
 
 /* ===========================================================
+   FAQ
+   Built on <details>/<summary> - a native HTML accordion, so
+   clicking a question to expand its answer needs zero JavaScript.
+   Everything below is just styling that behavior, not creating it.
+============================================================ */
+.faq {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 700px; /* matches .pricing-grid's max-width above, so both line up */
+  transition: border-color var(--theme-transition);
+}
+
+.faq h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  transition: border-color var(--theme-transition);
+}
+
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  list-style: none; /* removes Firefox's default disclosure triangle */
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--text);
+  padding: 0.9rem 0;
+  transition: color 0.15s ease; /* fast, same reasoning as .nav a's hover */
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none; /* removes Chrome/Safari's default disclosure triangle */
+}
+
+.faq-item summary:hover,
+.faq-item summary:focus-visible {
+  color: var(--accent);
+}
+
+/* custom "+" indicator, replacing the default triangle removed
+   above - rotates 45deg into an "x" when the answer is open */
+.faq-item summary::after {
+  content: '+';
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 60ch;
+  padding: 0 0 1.1rem;
+}
+
+.faq-item p a {
+  color: var(--accent);
+}
+
+.faq-closing {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.faq-closing a {
+  color: var(--accent);
+}
+
+/* ===========================================================
    NAV BAR
 ============================================================ */
 .nav {
@@ -523,6 +631,23 @@ html {
   flex-shrink: 0; /* stops the logo from getting squeezed/shrunk by the links next to it on narrow screens */
 }
 
+/* Marks just the "WEI" text as the SAME element across a navigation,
+   to the browser's view-transition engine (see @view-transition
+   above) - deliberately NOT the whole .nav .brand link. The mini
+   waveform next to it can be visible on one page and not the other
+   (it's always on for pricing.html, but only appears on index.html
+   after scrolling past the hero) - if the whole link carried the
+   name, the browser would try to morph two differently-shaped
+   elements into each other whenever those states didn't match,
+   which is what was reading as a jump on the way back to pricing.
+   Naming just the text keeps that part - the actual logo - morphing
+   smoothly every time, the closest plain-CSS equivalent to
+   something like Framer's Smart Animate, while the waveform simply
+   fades in or out normally as part of the page's plain crossfade. */
+.brand-text {
+  view-transition-name: brand;
+}
+
 /* Mini copy of the hero's waveform, living inside the nav brand
    link. Reuses .waveform's flex/gap and .waveform span's bar shape
    + bounce animation as-is (the bar heights below are percentages
@@ -536,7 +661,10 @@ html {
   margin-top: 0;
   opacity: 0;
   transform: translateX(-6px) scale(0.9);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  /* sped up from 0.4s - now that the observer fires at the right
+     moment (see script.js), a quicker fade keeps the handoff feeling
+     immediate instead of lagging behind the real one's disappearance */
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .waveform--nav span {
@@ -745,6 +873,20 @@ html {
   .nav a {
     font-size: 0.95rem;
   }
+}
+
+/* Forces every transition inside .nav to resolve instantly - added
+   by script.js for one frame right before a cross-page navigation
+   fires. Without this, clicking a nav link shortly after the mini
+   waveform's reveal/hide transition started (most likely right
+   after scrolling past the hero, since "About" sits right there)
+   could catch it mid-animation, handing the view-transition engine
+   an unsettled snapshot to morph from - which is what made that
+   specific transition look worse than others. This guarantees a
+   clean, fully-settled snapshot every time, regardless of timing. */
+.nav.no-transition,
+.nav.no-transition * {
+  transition: none !important;
 }
 
 /* ===========================================================
